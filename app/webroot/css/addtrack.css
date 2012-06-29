@@ -1,0 +1,46 @@
+#results li a {
+	margin-left: 3px;
+	margin-top: 3px;
+	display: block;
+	float: left;
+	padding:6px;
+	text-decoration: none;
+	color: #176117;
+}
+
+#results li a span {
+	display: block;
+	margin-top: 5px;
+	font-size: 0.8em;
+	font-style: italic;
+	color: #4d4d4d;
+}
+
+#results li a.addtrack {
+	float:right;
+	padding: 4px 12px;
+	margin-right: 4px;
+	font-size: 2em;
+	background: #fff;
+	color: #7a7a7a;
+	-moz-border-radius: 4px; /* Firefox */
+	-webkit-border-radius: 4px; /* Safari, Chrome */
+	border-radius: 4px; /* CSS3 */		
+}
+
+#results li {
+	list-style: none;
+	background-color: #E1FFA0;
+	-moz-border-radius: 4px; /* Firefox */
+	-webkit-border-radius: 4px; /* Safari, Chrome */
+	border-radius: 4px; /* CSS3 */		
+	margin: 5px 0;
+	height: 50px;
+	width: 100%;
+	position: relative;
+}
+
+#results {
+	padding:0;
+	margin:0;
+}
