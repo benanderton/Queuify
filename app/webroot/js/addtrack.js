@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-	var originalSearchField;
+
+	$('#toggle-more').hide();
 
 	// On key up start a timer for 1 second, after 1 second fetch track results
 	// Saves making excessive queries to the Spotify Search API
@@ -26,14 +27,23 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$('#toggle-more').click(function() {
+		$('#results').attr('style', 'max-height: 100%; overflow: visible');
+		$(this).hide();
+		return false;
+	});
+
 });
 
 // Takes the value of the search box and uses it to query the Spotify search API and populate a list of results
 function fetchTrackResults() {
 
+	$('#results').attr('style', 'max-height: 280px; overflow: hidden');
+
 	// Empty the list and set its content to a loading notification		
 	$('#results').empty();
 	$('#results').append('Loading');
+	$('#toggle-more').show();
 
 	// Fetch results from the spotify search API
 	$.get("http://ws.spotify.com/search/1/track.json", { q: $('#SpotifyTrackArtist').val() },
@@ -71,6 +81,11 @@ function addTrack(trackId, trackInfo) {
 			
 			if(data == 'success') {
 				trackInfo.fadeOut(1000);
+
+				$.get("http://cue.local/tracks/ajaxretrieve", function(data){
+						$('#results-table').replaceWith(data);
+				});
+
 			} else if(data == 'duplicate') {
 				trackInfo.attr('class', 'error');
 				trackInfo.find('.addtrack').html('D');

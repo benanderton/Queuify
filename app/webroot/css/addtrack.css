@@ -51,4 +51,21 @@
 #results {
 	padding:0;
 	margin:0;
+	overflow: hidden;
+	max-height:280px;
+}
+
+#toggle-more {
+	text-align: center;
+	display:block;
+	background-color: whiteSmoke;
+	text-decoration:none;
+	padding: 8px;
+	-moz-border-radius: 4px; /* Firefox */
+	-webkit-border-radius: 4px; /* Safari, Chrome */
+	border-radius: 4px; /* CSS3 */			
+}
+
+#footer-link {
+	color: #fff;
 }
