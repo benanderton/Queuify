@@ -8,7 +8,7 @@
 	color: #176117;
 }
 
-#results li a span {
+#results li a .album-and-year {
 	display: block;
 	margin-top: 5px;
 	font-size: 0.8em;
@@ -38,6 +38,14 @@
 	height: 50px;
 	width: 100%;
 	position: relative;
+}
+
+#results .error {
+	background-color: #FFB3B3 !important;
+}
+
+#results .error a {
+	color: #000;
 }
 
 #results {

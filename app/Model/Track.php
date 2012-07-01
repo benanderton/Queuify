@@ -31,8 +31,13 @@ class Track extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+		),
+		'spotifyid' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+			),
 			'rule' => array('limitTracks'),
-			'message' => 'duplicate'
+			'message' => 'duplicate'			
 		),
 		'album' => array(
 			'notempty' => array(

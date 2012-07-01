@@ -2,6 +2,6 @@
 	if(!is_array($status)) {
 		echo $status;
 	} else {
-		echo $status['title'][0]; 
+		echo $status['spotifyid'][0]; 
 	}
 ?>

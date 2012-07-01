@@ -22,8 +22,7 @@ $(document).ready(function() {
 	});
 
 	$('#results').on('click', 'a', function(event){
-		addTrack($(this).attr('href'));
-		$(this).parent().fadeOut(1000);
+		addTrack($(this).attr('href'), $(this).parent());
 		return false;
 	});
 
@@ -53,22 +52,30 @@ function fetchTrackResults() {
 				trackInfo.title = value.name;
 				trackInfo.href = value.href;
 
-				$('#results').append('<li><a href="' + trackInfo.href + '">' + trackInfo.artist + ' - ' + trackInfo.title + ' <span>' + trackInfo.album + ', ' + trackInfo.date +  '</span></a><a href="' + trackInfo.href + '" class="addtrack">+</a></li>');				
+				$('#results').append('<li><a href="' + trackInfo.href + '"><span class="artist">' + trackInfo.artist + '</span> - <span class="title">' + trackInfo.title + '</span> <span class="album-and-year"><span class="album">' + trackInfo.album + '</span>, <span class="year">' + trackInfo.date +  '</span></span></a><a href="' + trackInfo.href + '" class="addtrack">+</a></li>');				
 			});
 		});
 }
 
-function addTrack(trackId) {
+function addTrack(trackId, trackInfo) {
+
 	// Fetch results from the spotify search API
-	$.post("http://cue.local/tracks/ajaxadd", { trackid: trackId },
+	$.post("http://cue.local/tracks/ajaxadd", { 
+			trackid: trackId,
+			artist: trackInfo.find('.artist').html(),
+			title: trackInfo.find('.title').html(), 
+			album: trackInfo.find('.album').html(),
+			year: trackInfo.find('.year').html()
+		},
 		function(data){
 			
 			if(data == 'success') {
-				alert('Success!');
+				trackInfo.fadeOut(1000);
 			} else if(data == 'duplicate') {
-				alert('Duplicate');
+				trackInfo.attr('class', 'error');
+				trackInfo.find('.addtrack').html('D');
 			} else {
-				alert('Error');
+				alert('There was an error in adding your track to the playlist.');
 			}
 		});
 }

@@ -61,9 +61,11 @@ public $helpers = array('Js' => array('Jquery'));
 			// Create our data array
 			$data = array(
 				'Track' => array(
-					'artist' => 'test artist',
-					'title' => $this->request->data['trackid'],
-					'album' => 'Test album',
+					'artist' => $this->request->data['artist'],
+					'title' => $this->request->data['title'],
+					'album' => $this->request->data['album'],
+					'spotifyid' => $this->request->data['trackid'],
+					'release_date' => $this->request->data['year'],					
 				)
 			);
 
@@ -74,7 +76,6 @@ public $helpers = array('Js' => array('Jquery'));
 			} else {
 				$this->set('status', $this->Track->invalidFields());
 			}
-
 		} else {
 			$this->set('status', 'error');
 		}
