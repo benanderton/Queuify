@@ -1,0 +1,17 @@
+{
+	"BundleType": "Application",
+	"BundleIdentifier": "queuify",
+	"AppIcon": {
+		"36x18": "queuify.png"
+	},
+	"AppName": {
+		"en": "Queuify"
+	},
+	"SupportedLanguages": [
+		"en"
+	],
+	"RequiredPermissions": [
+		"http://ws.audioscrobbler.com",
+		"http://cue.local"
+	]
+}

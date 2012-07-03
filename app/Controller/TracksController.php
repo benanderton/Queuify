@@ -62,4 +62,31 @@ public $helpers = array('Js' => array('Jquery'));
 		}
 	}
 
+	public function gettrack() {
+
+		$this->layout = 'ajax';
+
+        $random = $this->Track->find('first', array(
+            'order' => 'rand()',
+            'conditions' => array('Track.played' => 0)
+        ));
+
+        if($random) {
+			$data = array(
+				'Track' => array(
+					'id' => $random['Track']['id'],
+					'played' => 1,				
+				)
+			);
+
+			$this->Track->save($data);
+        } else {
+			$random = $this->Track->find('first', array(
+	            'order' => 'rand()',
+	        ));        	
+        }
+
+       	$this->set('json', $random['Track']);
+	}
+
 }
