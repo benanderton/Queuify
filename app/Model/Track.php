@@ -7,7 +7,8 @@ App::uses('AppModel', 'Model');
 class Track extends AppModel {
 
 
-	var $order = "Track.id DESC";
+	var $order = array('Track.playing' => 'DESC', 'Track.played' => 'ASC', 'Track.id' => 'DESC');
+
 	
 	/**
 	 * Validation rules

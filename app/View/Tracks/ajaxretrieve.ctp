@@ -8,12 +8,20 @@
 	</tr>
 	<?php
 	foreach ($tracks as $track): ?>
-	<tr>
+	<tr <?php if($track['Track']['playing'] == 1) : ?>class="playing"<?php endif; ?>>
 		<td><?php echo h($track['Track']['artist']); ?>&nbsp;</td>
 		<td><?php echo h($track['Track']['title']); ?>&nbsp;</td>
 		<td><?php echo h($track['Track']['album']); ?>&nbsp;</td>
 		<td><?php echo h($track['Track']['release_date']); ?>&nbsp;</td>
-		<td><?php echo ($track['Track']['played'] == 1) ? 'Played' : 'Coming Up'; ?>&nbsp;</td>		
+		<td>
+			<?php if($track['Track']['playing'] == 1) : ?>
+				Playing
+			<?php elseif ($track['Track']['played'] == 0) : ?>
+				Coming Up
+			<?php else: ?>
+				Played
+			<?php endif; ?>
+		</td>	
 	</tr>
 	<?php endforeach; ?>
 </table>

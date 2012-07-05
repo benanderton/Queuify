@@ -11,6 +11,12 @@ $(document).ready(function() {
 		$(this).data('timer', wait);
 	});
 
+	$('#SpotifyTrackArtist').keypress(function(event) {
+	    if (event.keyCode == 13) {
+	        event.preventDefault();
+	    }
+	});
+
 	$('#SpotifyTrackArtist').focus(function() {
 		originalSearchField = $(this).attr('value');
 		$(this).attr('value', '');
@@ -46,9 +52,10 @@ function fetchTrackResults() {
 	$('#toggle-more').show();
 
 	// Fetch results from the spotify search API
-	$.get("http://ws.spotify.com/search/1/track.json", { q: $('#SpotifyTrackArtist').val() },
+	$.getJSON("http://ws.spotify.com/search/1/track.json", { q: $('#SpotifyTrackArtist').val() },
 		function(data){
 			
+
 			// Remove everything from the list
 			$('#results').empty();
 
@@ -70,7 +77,7 @@ function fetchTrackResults() {
 function addTrack(trackId, trackInfo) {
 
 	// Fetch results from the spotify search API
-	$.post("http://cue.local/tracks/ajaxadd", { 
+	$.post("http://spotify.benanderton.co.uk/tracks/ajaxadd", { 
 			trackid: trackId,
 			artist: trackInfo.find('.artist').html(),
 			title: trackInfo.find('.title').html(), 
@@ -82,7 +89,7 @@ function addTrack(trackId, trackInfo) {
 			if(data == 'success') {
 				trackInfo.fadeOut(1000);
 
-				$.get("http://cue.local/tracks/ajaxretrieve", function(data){
+				$.get("http://spotify.benanderton.co.uk/tracks/ajaxretrieve", function(data){
 						$('#results-table').replaceWith(data);
 				});
 

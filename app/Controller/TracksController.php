@@ -15,8 +15,11 @@ public $helpers = array('Js' => array('Jquery'));
  * @return void
  */
 	public function index() {
-		$this->Track->recursive = 0;
+		$this->Track->recursive = 0;	
 		$this->set('tracks', $this->paginate());
+
+
+
 	}
 
 	public function ajaxretrieve() {
@@ -66,6 +69,17 @@ public $helpers = array('Js' => array('Jquery'));
 
 		$this->layout = 'ajax';
 
+		$items = $this->Track->find('all', array(
+		    'conditions'=> array(
+		        'Track.playing =' => 1,
+		    )
+		));
+
+		foreach($items as $key => $val) {
+			$this->Track->id = $val['Track']['id'];
+			$this->Track->saveField('playing', 0);
+		}
+
         $random = $this->Track->find('first', array(
             'order' => 'rand()',
             'conditions' => array('Track.played' => 0)
@@ -75,15 +89,26 @@ public $helpers = array('Js' => array('Jquery'));
 			$data = array(
 				'Track' => array(
 					'id' => $random['Track']['id'],
-					'played' => 1,				
+					'played' => 1,	
+					'playing' => 1,			
 				)
 			);
 
 			$this->Track->save($data);
         } else {
+
 			$random = $this->Track->find('first', array(
-	            'order' => 'rand()',
+	            'order' => 'rand()',	            
 	        ));        	
+
+			$data = array(
+				'Track' => array(
+					'id' => $random['Track']['id'],
+					'playing' => 1,			
+				)
+			);
+
+			$this->Track->save($data);	        
         }
 
        	$this->set('json', $random['Track']);

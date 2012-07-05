@@ -16,6 +16,10 @@
 	color: #4d4d4d;
 }
 
+.playing * {
+	background-color: #F0FF9C;
+}
+
 #results li a.addtrack {
 	float:right;
 	padding: 4px 12px;
