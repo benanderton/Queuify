@@ -54,6 +54,12 @@ public $helpers = array('Js' => array('Jquery'));
 
 		$this->layout = 'ajax';
 
+		if(isset($_SERVER['REMOTE_USER'])) {
+			$user = $_SERVER['REMOTE_USER'];
+		} else {
+			$user = FALSE;
+		}
+
 		if ($this->request->is('post')) {
 
 			// Create our data array
@@ -64,7 +70,7 @@ public $helpers = array('Js' => array('Jquery'));
 					'album' => $this->request->data['album'],
 					'spotifyid' => $this->request->data['trackid'],
 					'release_date' => $this->request->data['year'],	
-					'added_by' => $_SERVER['REMOTE_USER'],				
+					'added_by' => $user,				
 				)
 			);
 
