@@ -15,11 +15,25 @@ public $helpers = array('Js' => array('Jquery'));
  * @return void
  */
 	public function index() {
+		// Allowed users array
+		$allowedUsers = array('b.anderton', 't.murphy');
+
+		// Set our user
+		if(isset($_SERVER['REMOTE_USER'])) {
+			$user = $_SERVER['REMOTE_USER'];
+		} else {
+			$user = FALSE;
+		}
+
+		if(in_array($user, $allowedUsers)) {
+			$showAddedBy = TRUE;
+		} else {
+			$showAddedBy = FALSE;
+		}
+
 		$this->Track->recursive = 0;	
 		$this->set('tracks', $this->paginate());
-
-
-
+		$this->set('showAddedBy', $showAddedBy);
 	}
 
 	public function ajaxretrieve() {
@@ -49,7 +63,8 @@ public $helpers = array('Js' => array('Jquery'));
 					'title' => $this->request->data['title'],
 					'album' => $this->request->data['album'],
 					'spotifyid' => $this->request->data['trackid'],
-					'release_date' => $this->request->data['year'],					
+					'release_date' => $this->request->data['year'],	
+					'added_by' => $_SERVER['REMOTE_USER'],				
 				)
 			);
 
