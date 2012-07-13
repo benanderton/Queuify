@@ -40,6 +40,13 @@ class Track extends AppModel {
 		),
 	);
 
+    public $hasMany = array(
+        'Vote' => array(
+            'className'  => 'Vote',
+            'foreignKey' => 'track_id',
+        )
+    );	
+
 	/**
 	* Validation method to ensure each track is only added once.
 	*/

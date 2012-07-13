@@ -16,10 +16,9 @@
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort('album');?></th>
 			<th><?php echo $this->Paginator->sort('release_date');?></th>
-			<?php if($showAddedBy) : ?>
 			<th><?php echo $this->Paginator->sort('added_by'); ?></th>
-			<?php endif; ?>
 			<th>Status</th>
+			<th>&nbsp;</th>
 	</tr>
 	<?php
 	foreach ($tracks as $track): ?>
@@ -28,9 +27,7 @@
 		<td><?php echo h($track['Track']['title']); ?>&nbsp;</td>
 		<td><?php echo h($track['Track']['album']); ?>&nbsp;</td>
 		<td><?php echo h($track['Track']['release_date']); ?>&nbsp;</td>
-		<?php if($showAddedBy) : ?>
 		<td><?php echo h($track['Track']['added_by']); ?></th>
-		<?php endif; ?>
 		<td>
 			<?php if($track['Track']['playing'] == 1) : ?>
 				Playing
@@ -40,6 +37,7 @@
 				Played
 			<?php endif; ?>
 		</td>
+		<td><a href="votes/add/<?php echo $track['Track']['id']; ?>" class="vote">Vote Down</a>
 	</tr>
 <?php endforeach; ?>
 	</table>

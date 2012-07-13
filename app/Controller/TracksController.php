@@ -15,25 +15,7 @@ public $helpers = array('Js' => array('Jquery'));
  * @return void
  */
 	public function index() {
-		// Allowed users array
-		$allowedUsers = array('b.anderton', 't.murphy');
-
-		// Set our user
-		if(isset($_SERVER['REMOTE_USER'])) {
-			$user = $_SERVER['REMOTE_USER'];
-		} else {
-			$user = FALSE;
-		}
-
-		if(in_array($user, $allowedUsers)) {
-			$showAddedBy = TRUE;
-		} else {
-			$showAddedBy = FALSE;
-		}
-
-		$this->Track->recursive = 0;	
 		$this->set('tracks', $this->paginate());
-		$this->set('showAddedBy', $showAddedBy);
 	}
 
 	public function ajaxretrieve() {
@@ -57,7 +39,7 @@ public $helpers = array('Js' => array('Jquery'));
 		if(isset($_SERVER['REMOTE_USER'])) {
 			$user = $_SERVER['REMOTE_USER'];
 		} else {
-			$user = FALSE;
+			$user = 'Undefined';
 		}
 
 		if ($this->request->is('post')) {
