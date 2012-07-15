@@ -9,7 +9,6 @@
 			<a href="#" id="toggle-more">Show more results</a>
 		</fieldset>
 	<?php echo $this->Form->end();?>
-
 	<table cellpadding="0" cellspacing="0" id="results-table">
 	<tr>
 			<th><?php echo $this->Paginator->sort('artist');?></th>
@@ -22,6 +21,22 @@
 	</tr>
 	<?php
 	foreach ($tracks as $track): ?>
+
+<?php
+if(!empty($track['Vote'])) {
+	foreach($track['Vote'] as $v) {
+		if(in_array($user, $v)) {
+			$vote = false;
+		} else {
+			$vote = true;
+		}
+	}	
+} else {
+	$vote = true;
+}
+
+?>
+
 	<tr <?php if($track['Track']['playing'] == 1) : ?>class="playing"<?php endif; ?>>
 		<td><?php echo h($track['Track']['artist']); ?>&nbsp;</td>
 		<td><?php echo h($track['Track']['title']); ?>&nbsp;</td>
@@ -37,7 +52,13 @@
 				Played
 			<?php endif; ?>
 		</td>
-		<td><a href="votes/add/<?php echo $track['Track']['id']; ?>" class="vote">Vote Down</a>
+		<td>	
+			<?php if($vote) : ?>
+				<a href="<?php echo $track['Track']['id']; ?>" class="vote">Vote Down</a>
+			<?php else: ?>
+				Voted
+			<?php endif; ?>
+		</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
@@ -54,5 +75,8 @@
 		echo $this->Paginator->numbers(array('separator' => ''));
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
+	</div>
+	<div class="paging">
+		<p class="wallofshame"><a href="/tracks/wallofshame">It's not all good, click to see the <b>wall of shame</b>, have mercy.</a></p>
 	</div>
 </div>

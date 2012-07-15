@@ -40,7 +40,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <body
 	<div id="container">
 		<div id="header">
-			<h1>Queuify - Add a track</h1>
+			<h1><a href="/">Queuify - Add a track</a></h1>
 		</div>
 		<div id="content">
 

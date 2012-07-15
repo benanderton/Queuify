@@ -17,6 +17,18 @@ $(document).ready(function() {
 	    }
 	});
 
+	$('.vote').click(function () {
+		voteTrackDown($(this).attr('href'), $(this));
+		return false;
+	});
+
+	$('body').on('click', 'a', function(event){
+		if($(this).attr('class') == 'vote') {
+			voteTrackDown($(this).attr('href'), $(this));
+			return false;
+		}
+	});
+
 	$('#SpotifyTrackArtist').focus(function() {
 		originalSearchField = $(this).attr('value');
 		$(this).attr('value', '');
@@ -40,6 +52,19 @@ $(document).ready(function() {
 	});
 
 });
+
+function voteTrackDown(trackId, link) {
+
+	$.get("http://cue.local/votes/add/" + trackId, function(data){
+
+		if(data == 'success') {
+			link.replaceWith('Voted');
+		} else {
+			alert('You have already voted this track down');
+		}
+	});
+
+}
 
 // Takes the value of the search box and uses it to query the Spotify search API and populate a list of results
 function fetchTrackResults() {

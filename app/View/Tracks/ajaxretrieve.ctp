@@ -10,6 +10,22 @@
 	</tr>
 	<?php
 	foreach ($tracks as $track): ?>
+
+	<?php
+	if(!empty($track['Vote'])) {
+		foreach($track['Vote'] as $v) {
+			if(in_array($user, $v)) {
+				$vote = false;
+			} else {
+				$vote = true;
+			}
+		}	
+	} else {
+		$vote = true;
+	}
+
+	?>
+
 	<tr <?php if($track['Track']['playing'] == 1) : ?>class="playing"<?php endif; ?>>
 		<td><?php echo h($track['Track']['artist']); ?>&nbsp;</td>
 		<td><?php echo h($track['Track']['title']); ?>&nbsp;</td>
@@ -25,7 +41,13 @@
 				Played
 			<?php endif; ?>
 		</td>	
-		<td><a href="votes/add/<?php echo $track['Track']['id']; ?>" class="vote">Vote Down</a></td>
+		<td class="vote-row">
+			<?php if($vote) : ?>
+				<a href="<?php echo $track['Track']['id']; ?>" class="vote">Vote Down</a>
+			<?php else: ?>
+				Voted
+			<?php endif; ?>
+		</td>
 	</tr>
 	<?php endforeach; ?>
 </table>

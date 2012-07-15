@@ -26,12 +26,6 @@ class VotesController extends AppController {
 	public function add() {
 
 		$this->layout = 'ajax';
-		
-		if(isset($_SERVER['REMOTE_USER'])) {
-			$user = $_SERVER['REMOTE_USER'];
-		} else {
-			$user = 'Undefined';
-		}
 
 		if ($this->request->is('get')) {
 
@@ -41,13 +35,34 @@ class VotesController extends AppController {
 			$data = array(
 				'Vote' => array(
 					'track_id' => $trackId,
-					'user' => $user,	
+					'user' => $this->getUser(),	
 				)
 			);
 
 			$this->Vote->create();
 		
 			if($this->Vote->save($data)) {
+
+				$voteCount = $this->Vote->find('count', array(
+					'conditions' => array('Vote.track_id' => $trackId)
+					));
+
+				if($voteCount >= 3) {
+
+					$this->loadModel('Track');
+
+					$data = array(
+						'Track' => array(
+							'id' => $trackId,
+							'voted_down' => 1,			
+						)
+					);
+
+					$this->Track->save($data);	
+
+				}
+
+
 				$this->set('status', 'success');
 			} else {
 				$this->set('status', $this->Vote->invalidFields());
@@ -58,25 +73,4 @@ class VotesController extends AppController {
 
 	}
 
-/**
- * delete method
- *
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Vote->id = $id;
-		if (!$this->Vote->exists()) {
-			throw new NotFoundException(__('Invalid vote'));
-		}
-		if ($this->Vote->delete()) {
-			$this->Session->setFlash(__('Vote deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Vote was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
 }
