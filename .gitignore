@@ -1,8 +1,3 @@
 /app/tmp
 /lib/Cake/Console/Templates/skel/tmp/
-/plugins
-/vendors
-/build
-/dist
 .DS_Store
-/tags
