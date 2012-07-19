@@ -17,6 +17,18 @@ $(document).ready(function() {
 	    }
 	});
 
+	$('.vote').click(function () {
+		voteTrackDown($(this).attr('href'), $(this));
+		return false;
+	});
+
+	$('body').on('click', 'a', function(event){
+		if($(this).attr('class') == 'vote') {
+			voteTrackDown($(this).attr('href'), $(this));
+			return false;
+		}
+	});
+
 	$('#SpotifyTrackArtist').focus(function() {
 		originalSearchField = $(this).attr('value');
 		$(this).attr('value', '');
@@ -41,6 +53,19 @@ $(document).ready(function() {
 
 });
 
+function voteTrackDown(trackId, link) {
+
+	$.get("http://cue.local/votes/add/" + trackId, function(data){
+
+		if(data == 'success') {
+			link.replaceWith('Voted');
+		} else {
+			alert('You have already voted this track down');
+		}
+	});
+
+}
+
 // Takes the value of the search box and uses it to query the Spotify search API and populate a list of results
 function fetchTrackResults() {
 
@@ -62,14 +87,17 @@ function fetchTrackResults() {
 			// Add each result to the list
 			$.each(data.tracks, function(key, value) {
 
-				var trackInfo = new Object();
-				trackInfo.artist = value.artists[0].name;
-				trackInfo.album = value.album.name;
-				trackInfo.date = value.album.released;
-				trackInfo.title = value.name;
-				trackInfo.href = value.href;
 
-				$('#results').append('<li><a href="' + trackInfo.href + '"><span class="artist">' + trackInfo.artist + '</span> - <span class="title">' + trackInfo.title + '</span> <span class="album-and-year"><span class="album">' + trackInfo.album + '</span>, <span class="year">' + trackInfo.date +  '</span></span></a><a href="' + trackInfo.href + '" class="addtrack">+</a></li>');				
+				if (value.album.availability.territories.toLowerCase().indexOf("gb") >= 0) {
+					var trackInfo = new Object();
+					trackInfo.artist = value.artists[0].name;
+					trackInfo.album = value.album.name;
+					trackInfo.date = value.album.released;
+					trackInfo.title = value.name;
+					trackInfo.href = value.href;
+
+					$('#results').append('<li><a href="' + trackInfo.href + '"><span class="artist">' + trackInfo.artist + '</span> - <span class="title">' + trackInfo.title + '</span> <span class="album-and-year"><span class="album">' + trackInfo.album + '</span>, <span class="year">' + trackInfo.date +  '</span></span></a><a href="' + trackInfo.href + '" class="addtrack">+</a></li>');	
+				}			
 			});
 		});
 }
@@ -77,7 +105,7 @@ function fetchTrackResults() {
 function addTrack(trackId, trackInfo) {
 
 	// Fetch results from the spotify search API
-	$.post("http://spotify.benanderton.co.uk/tracks/ajaxadd", { 
+	$.post("http://cue.local/tracks/ajaxadd", { 
 			trackid: trackId,
 			artist: trackInfo.find('.artist').html(),
 			title: trackInfo.find('.title').html(), 
@@ -89,7 +117,7 @@ function addTrack(trackId, trackInfo) {
 			if(data == 'success') {
 				trackInfo.fadeOut(1000);
 
-				$.get("http://spotify.benanderton.co.uk/tracks/ajaxretrieve", function(data){
+				$.get("http://cue.local/tracks/ajaxretrieve", function(data){
 						$('#results-table').replaceWith(data);
 				});
 

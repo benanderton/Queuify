@@ -7,7 +7,7 @@ App::uses('AppController', 'Controller');
  */
 class TracksController extends AppController {
 
-public $helpers = array('Js' => array('Jquery'));
+	public $helpers = array('Js' => array('Jquery'));
 
 /**
  * index method
@@ -15,27 +15,39 @@ public $helpers = array('Js' => array('Jquery'));
  * @return void
  */
 	public function index() {
-		$this->Track->recursive = 0;	
+
+		$this->paginate = array(
+			'conditions' => array(
+				'Track.voted_down' => 0,
+			) 
+		);
+
+		$this->set('user', $this->getUser());
 		$this->set('tracks', $this->paginate());
+	}
 
+	public function wallofshame() {
+		$this->paginate = array(
+			'conditions' => array(
+				'voted_down' => 1
+			)
+		);
 
-
+		$this->set('tracks', $this->paginate());
 	}
 
 	public function ajaxretrieve() {
-
+		$this->paginate = array(
+			'conditions' => array(
+				'Track.voted_down' => 0,
+			) 
+		);
+		
 		$this->layout = 'ajax';
-
-		$this->Track->recursive = 0;
+		$this->set('user', $this->getUser());
 		$this->set('tracks', $this->paginate());
 	}
 
-/**
- * view method
- *
- * @param string $id
- * @return void
- */
 	public function ajaxadd() {
 
 		$this->layout = 'ajax';
@@ -49,7 +61,8 @@ public $helpers = array('Js' => array('Jquery'));
 					'title' => $this->request->data['title'],
 					'album' => $this->request->data['album'],
 					'spotifyid' => $this->request->data['trackid'],
-					'release_date' => $this->request->data['year'],					
+					'release_date' => $this->request->data['year'],	
+					'added_by' => $this->getUser(),				
 				)
 			);
 
@@ -82,7 +95,10 @@ public $helpers = array('Js' => array('Jquery'));
 
         $random = $this->Track->find('first', array(
             'order' => 'rand()',
-            'conditions' => array('Track.played' => 0)
+            'conditions' => array(
+            	'Track.played' => 0,
+            	'Track.voted_down' => 0
+            )
         ));
 
         if($random) {
@@ -98,7 +114,8 @@ public $helpers = array('Js' => array('Jquery'));
         } else {
 
 			$random = $this->Track->find('first', array(
-	            'order' => 'rand()',	            
+	            'order' => 'rand()',	 
+	            'conditions' => array('Track.voted_down' => 0)           
 	        ));        	
 
 			$data = array(

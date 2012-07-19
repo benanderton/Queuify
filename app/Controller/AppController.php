@@ -32,4 +32,14 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	public function getUser() {
+		if(isset($_SERVER['REMOTE_USER'])) {
+			$user = $_SERVER['REMOTE_USER'];
+		} else {
+			$user = 'Undefined';
+		}
+
+		return $user;
+	}
+
 }

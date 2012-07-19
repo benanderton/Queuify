@@ -73,3 +73,17 @@
 #footer-link {
 	color: #fff;
 }
+
+.wallofshame {
+	text-align: center;
+}
+
+.wallofshame a {
+	text-align:center;
+	font-weight:normal !important;
+}
+
+.wallofshame a b {
+	font-weight:bold;
+	color: #ff0000;
+}
