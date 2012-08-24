@@ -69,7 +69,7 @@ function voteTrackDown(trackId, link) {
 // Takes the value of the search box and uses it to query the Spotify search API and populate a list of results
 function fetchTrackResults() {
 
-	$('#results').attr('style', 'max-height: 280px; overflow: hidden');
+	$('#results').attr('style', 'max-height: 300px; overflow: hidden');
 
 	// Empty the list and set its content to a loading notification		
 	$('#results').empty();

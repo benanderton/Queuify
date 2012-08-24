@@ -1,2 +1,7 @@
-/lib/Cake/Console/Templates/skel/tmp/
 .DS_Store
+*.sublime*
+
+# Ignore parts of Cake folder structure
+/lib/Cake/Console/Templates/skel/tmp/
+/app/tmp/cache/*
+/app/tmp/logs/*

@@ -1,3 +1,21 @@
+#results {
+	margin: 0;
+	overflow: hidden;
+	max-height: 300px;
+}
+
+#results li {
+	list-style: none;
+	background-color: #E1FFA0;
+	-moz-border-radius: 4px; /* Firefox */
+	-webkit-border-radius: 4px; /* Safari, Chrome */
+	border-radius: 4px; /* CSS3 */		
+	margin: 5px 0;
+	height: 54px;
+	width: 100%;
+	position: relative;
+}
+
 #results li a {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -16,10 +34,6 @@
 	color: #4d4d4d;
 }
 
-.playing * {
-	background-color: #F0FF9C;
-}
-
 #results li a.addtrack {
 	float:right;
 	padding: 4px 12px;
@@ -32,31 +46,12 @@
 	border-radius: 4px; /* CSS3 */		
 }
 
-#results li {
-	list-style: none;
-	background-color: #E1FFA0;
-	-moz-border-radius: 4px; /* Firefox */
-	-webkit-border-radius: 4px; /* Safari, Chrome */
-	border-radius: 4px; /* CSS3 */		
-	margin: 5px 0;
-	height: 50px;
-	width: 100%;
-	position: relative;
-}
-
 #results .error {
 	background-color: #FFB3B3 !important;
 }
 
 #results .error a {
 	color: #000;
-}
-
-#results {
-	padding:0;
-	margin:0;
-	overflow: hidden;
-	max-height:280px;
 }
 
 #toggle-more {
@@ -86,4 +81,8 @@
 .wallofshame a b {
 	font-weight:bold;
 	color: #ff0000;
+}
+
+.playing td {
+	background-color: #F0FF9C;
 }
