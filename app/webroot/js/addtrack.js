@@ -1,6 +1,15 @@
 $(document).ready(function() {
 
 
+	function updateTrackList() {
+		$.get("http://cue.local/tracks/ajaxretrieve", function(data){
+			
+			console.log('Pulling tracks table');
+			$('#results-table').replaceWith(data);
+		});
+	}
+	setInterval(updateTrackList, 5000);
+
 	$('#toggle-more').hide();
 
 	// On key up start a timer for 1 second, after 1 second fetch track results
