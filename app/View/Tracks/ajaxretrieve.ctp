@@ -19,7 +19,7 @@
 			} else {
 				$vote = true;
 			}
-		}
+		}	
 	} else {
 		$vote = true;
 	}
@@ -27,11 +27,11 @@
 	?>
 
 	<tr <?php if($track['Track']['playing'] == 1) : ?>class="playing"<?php endif; ?>>
-		<td><?php echo $track['Track']['artist']; ?>&nbsp;</td>
-		<td><?php echo $track['Track']['title']; ?>&nbsp;</td>
-		<td><?php echo $track['Track']['album']; ?>&nbsp;</td>
-		<td><?php echo $track['Track']['release_date']; ?>&nbsp;</td>
-		<td><?php echo $track['Track']['added_by']; ?></th>
+		<td><?php echo h($track['Track']['artist']); ?>&nbsp;</td>
+		<td><?php echo h($track['Track']['title']); ?>&nbsp;</td>
+		<td><?php echo h($track['Track']['album']); ?>&nbsp;</td>
+		<td><?php echo h($track['Track']['release_date']); ?>&nbsp;</td>
+		<td><?php echo h($track['Track']['added_by']); ?></th>		
 		<td>
 			<?php if($track['Track']['playing'] == 1) : ?>
 				Playing
@@ -40,7 +40,7 @@
 			<?php else: ?>
 				Played
 			<?php endif; ?>
-		</td>
+		</td>	
 		<td class="vote-row">
 			<?php if($vote) : ?>
 				<a href="<?php echo $track['Track']['id']; ?>" class="vote">Vote Down</a>
