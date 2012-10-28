@@ -724,3 +724,25 @@ pre {
 #url-rewriting-warning {
 	display:none;
 }
+
+/* Utilities */
+
+/* 
+ * Micro clearfix via http://nicolasgallagher.com/micro-clearfix-hack/
+ * see that blog post for information on how it works
+ */
+
+.group:before,
+.group:after {
+    content: " "; 
+    display: table;
+}
+
+.group:after {
+    clear: both;
+}
+
+/* For IE 6/7 only */
+.group {
+    *zoom: 1;
+}
