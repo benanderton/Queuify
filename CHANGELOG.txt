@@ -11,3 +11,6 @@ Changelog
 • No longer queries the spotify API for an empty string if the searchbox is left empty
 • Only the tracklisting refreshes every 45 seconds instead of the entire page
 • Several CSS bugs fixed (m.weston)
+
+[Todo]
+• Alter the callback function that Spotify uses to request the next track so it can't be spoofed, thus skipping tracks.
