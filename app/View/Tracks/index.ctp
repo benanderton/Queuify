@@ -4,7 +4,7 @@
 <div class="tracks index">
 	<?php echo $this->Form->create('SpotifyTrack');?>
 		<fieldset>
-			<?php echo $this->Form->input('artist', array('value' => 'Search for a track...', 'label' => false)); ?>
+			<?php echo $this->Form->input('artist', array('label' => 'Search for a track')); ?>
 			<ul id="results"></ul>
 			<a href="#" id="toggle-more">Show more results</a>
 		</fieldset>

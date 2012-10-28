@@ -3,28 +3,42 @@ $(document).ready(function() {
 
 	function updateTrackList() {
 		$.get("http://cue.local/tracks/ajaxretrieve", function(data){
-			
-			console.log('Pulling tracks table');
 			$('#results-table').replaceWith(data);
 		});
 	}
-	setInterval(updateTrackList, 5000);
+	setInterval(updateTrackList, 45000);
 
 	$('#toggle-more').hide();
 
 	// On key up start a timer for 1 second, after 1 second fetch track results
 	// Saves making excessive queries to the Spotify Search API
 	$('#SpotifyTrackArtist').keyup(function() {
-		clearTimeout($.data(this, 'timer'));
-		var wait = setTimeout(fetchTrackResults, 1000);
-		$(this).data('timer', wait);
+
+		if($(this).attr('value').indexOf('http://open.spotify.com/track/') >= 0) {
+			// HTTP Lookup
+		} else {
+			clearTimeout($.data(this, 'timer'));
+			var wait = setTimeout(fetchTrackResults, 1000);
+			$(this).data('timer', wait);
+		}
 	});
 
 	$('#SpotifyTrackArtist').keypress(function(event) {
 	    if (event.keyCode == 13) {
+
+	    	if($(this).attr('value').indexOf('http://open.spotify.com/track/') >= 0) {
+	    		
+	    		var trackId = $(this).attr('value').replace('http://open.spotify.com/track/', 'spotify:track:');
+	    		if(addSingleTrack(trackId)) {
+	    			$(this).attr('value', '')
+	    		}
+	    		event.preventDefault();
+	    	}
+
 	        event.preventDefault();
 	    }
 	});
+
 
 	$('.vote').click(function () {
 		voteTrackDown($(this).attr('href'), $(this));
@@ -35,17 +49,6 @@ $(document).ready(function() {
 		if($(this).attr('class') == 'vote') {
 			voteTrackDown($(this).attr('href'), $(this));
 			return false;
-		}
-	});
-
-	$('#SpotifyTrackArtist').focus(function() {
-		originalSearchField = $(this).attr('value');
-		$(this).attr('value', '');
-	});
-
-	$('#SpotifyTrackArtist').blur(function() {
-		if($(this).attr('value') == '') {
-			$(this).attr('value', originalSearchField);
 		}
 	});
 
@@ -75,8 +78,42 @@ function voteTrackDown(trackId, link) {
 
 }
 
+function addSingleTrack(trackId) {
+
+	$.getJSON('http://ws.spotify.com/lookup/1/.json?uri=' + trackId, function(data) {
+
+		// Fetch results from the spotify search API
+		$.post("http://cue.local/tracks/ajaxadd", { 
+			trackid: trackId,
+			artist: data.track.artists[0].name,
+			title: data.track.name, 
+			album: data.track.album.name,
+			year: data.track.album.released
+		},
+		function(data){
+			
+			if(data == 'duplicate') {
+					alert('Sorry, this track has previously been added.');
+					return false;
+			}
+
+			$.get("http://cue.local/tracks/ajaxretrieve", function(data){
+					$('#results-table').replaceWith(data);
+			});			
+		});
+
+	});
+
+	return true;
+
+}
+
 // Takes the value of the search box and uses it to query the Spotify search API and populate a list of results
 function fetchTrackResults() {
+
+	if($('#SpotifyTrackArtist').val() == '') {
+		return false;
+	}
 
 	$('#results').attr('style', 'max-height: 300px; overflow: hidden');
 

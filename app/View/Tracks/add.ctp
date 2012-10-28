@@ -5,7 +5,7 @@
 <?php echo $this->Form->create('SpotifyTrack');?>
 	<fieldset>
 		<legend><?php echo __('Add Track'); ?></legend>
-		<?php echo $this->Form->input('artist', array('value' => 'Search for a track')); ?>
+		<?php echo $this->Form->input('artist', array('label', 'Search for a track')); ?>
 		<ul id="results"></ul>
 	</fieldset>
 <?php echo $this->Form->end();?>
