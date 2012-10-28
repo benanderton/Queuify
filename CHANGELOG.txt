@@ -1,0 +1,13 @@
+Changelog
+=========
+
+1.3
+[Features]
+• Tracks now properly shuffle, unplayed tracks first then played tracks. Once all tracks are shuffled it will start again.
+• Able to search by Spotify HTTP link in search bar
+
+[Bug Fixes]
+• Now saves track data in the database by querying the Spotify URI instead of using post data (post data is still used if the Spotify API is unavailable)
+• No longer queries the spotify API for an empty string if the searchbox is left empty
+• Only the tracklisting refreshes every 45 seconds instead of the entire page
+• Several CSS bugs fixed (m.weston)

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 15, 2012 at 05:21 PM
--- Server version: 5.5.24
--- PHP Version: 5.3.10-1ubuntu3.2
+-- Generation Time: Oct 28, 2012 at 12:57 PM
+-- Server version: 5.5.24-log
+-- PHP Version: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `tracks` (
   `release_date` int(11) NOT NULL,
   `played` tinyint(1) NOT NULL DEFAULT '0',
   `playing` tinyint(1) NOT NULL DEFAULT '0',
+  `shuffled` tinyint(1) DEFAULT '0',
   `added_by` varchar(256) DEFAULT NULL,
   `voted_down` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
