@@ -1,2 +1,3 @@
 /lib/Cake/Console/Templates/skel/tmp/
+/app/tmp/cache/*
 .DS_Store

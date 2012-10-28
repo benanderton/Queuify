@@ -1,0 +1,16 @@
+2012-10-28 09:53:02 Error: [MissingConnectionException] Database connection "SQLSTATE[42000] [1049] Unknown database 'queuify'" is missing, or could not be created.
+#0 C:\wamp\www\Queuify\lib\Cake\Model\Datasource\DboSource.php(245): Mysql->connect()
+#1 C:\wamp\www\Queuify\lib\Cake\Model\ConnectionManager.php(101): DboSource->__construct(Array)
+#2 C:\wamp\www\Queuify\lib\Cake\Model\Model.php(3417): ConnectionManager::getDataSource('default')
+#3 C:\wamp\www\Queuify\lib\Cake\Model\Model.php(1083): Model->setDataSource('default')
+#4 C:\wamp\www\Queuify\lib\Cake\Model\Model.php(3443): Model->setSource('tracks')
+#5 C:\wamp\www\Queuify\lib\Cake\Model\Model.php(2698): Model->getDataSource()
+#6 C:\wamp\www\Queuify\lib\Cake\Controller\Component\PaginatorComponent.php(172): Model->find('all', Array)
+#7 C:\wamp\www\Queuify\lib\Cake\Controller\Controller.php(1084): PaginatorComponent->paginate(NULL, Array, Array)
+#8 C:\wamp\www\Queuify\app\Controller\TracksController.php(26): Controller->paginate()
+#9 [internal function]: TracksController->index('home')
+#10 C:\wamp\www\Queuify\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TracksController), Array)
+#11 C:\wamp\www\Queuify\lib\Cake\Routing\Dispatcher.php(103): Controller->invokeAction(Object(CakeRequest))
+#12 C:\wamp\www\Queuify\lib\Cake\Routing\Dispatcher.php(85): Dispatcher->_invoke(Object(TracksController), Object(CakeRequest), Object(CakeResponse))
+#13 C:\wamp\www\Queuify\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#14 {main}
