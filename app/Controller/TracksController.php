@@ -54,17 +54,37 @@ class TracksController extends AppController {
 
 		if ($this->request->is('post')) {
 
-			// Create our data array
-			$data = array(
-				'Track' => array(
-					'artist' => $this->request->data['artist'],
-					'title' => $this->request->data['title'],
-					'album' => $this->request->data['album'],
-					'spotifyid' => $this->request->data['trackid'],
-					'release_date' => $this->request->data['year'],	
-					'added_by' => $this->getUser(),				
-				)
-			);
+
+			$trackJson = file_get_contents('http://ws.spotify.com/lookup/1/.json?uri=' . $this->request->data['trackid']);
+			
+			// If lookup came back ok
+			if($trackJson) {
+				$trackData = json_decode($trackJson);
+				// Create our data array
+				$data = array(
+					'Track' => array(
+						'artist' => $trackData->track->artists[0]->name,
+						'title' => $trackData->track->name,
+						'album' => $trackData->track->album->name,
+						'spotifyid' => $this->request->data['trackid'],
+						'release_date' => $trackData->track->album->released,	
+						'added_by' => $this->getUser(),				
+					)
+				);				
+
+			// Otherwise use post data
+			} else {
+				$data = array(
+					'Track' => array(
+						'artist' => $this->request->data['artist'],
+						'title' => $this->request->data['title'],
+						'album' => $this->request->data['album'],
+						'spotifyid' => $this->request->data['trackid'],
+						'release_date' => $this->request->data['year'],		
+						'added_by' => $this->getUser(),				
+					)
+				);	
+			}
 
 			$this->Track->create();
 		
