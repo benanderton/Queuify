@@ -82,6 +82,7 @@ class TracksController extends AppController {
 
 		$this->layout = 'ajax';
 
+		// Set any currently playing tracks to not playing
 		$items = $this->Track->find('all', array(
 		    'conditions'=> array(
 		        'Track.playing =' => 1,
@@ -93,6 +94,7 @@ class TracksController extends AppController {
 			$this->Track->saveField('playing', 0);
 		}
 
+		// Attempt to find a track that hasn't been played or voted down
         $random = $this->Track->find('first', array(
             'order' => 'rand()',
             'conditions' => array(
@@ -101,6 +103,7 @@ class TracksController extends AppController {
             )
         ));
 
+        // If an unplayed track that hasn't been voted down is found, mark it as played and playing
         if($random) {
 			$data = array(
 				'Track' => array(
@@ -111,23 +114,43 @@ class TracksController extends AppController {
 			);
 
 			$this->Track->save($data);
+		// If there are no unplayed tracks then choose one at random
         } else {
 
-			$random = $this->Track->find('first', array(
-	            'order' => 'rand()',	 
-	            'conditions' => array('Track.voted_down' => 0)           
-	        ));        	
+        	// Find a track that hasn't been shuffled
+        	$random = $this->Track->find('first', array(
+        		'order' => 'rand()',
+        		'conditions' => array(
+        			'Track.shuffled' => 0,
+        			'Track.voted_down' => 0,
+        		)
+        	));
 
-			$data = array(
-				'Track' => array(
-					'id' => $random['Track']['id'],
-					'playing' => 1,			
-				)
-			);
+        	// Save the newly shuffled track as shuffled
+        	if($random) {
+				$data = array(
+					'Track' => array(
+						'id' => $random['Track']['id'],
+						'shuffled' => 1,	
+						'playing' => 1,	
+					)
+				);
 
-			$this->Track->save($data);	        
+				$this->Track->save($data);
+        	
+			// If no unshuffled tracks exist then mark all tracks as shuffled and reload the page
+        	} else {
+
+        		$this->Track->updateAll(
+        			array('Track.shuffled' => 0),
+        			array('Track.shuffled' => 1)
+        		);
+
+        		$this->redirect('gettrack');
+        	}        
         }
 
+        // Set the content for the view
        	$this->set('json', $random['Track']);
 	}
 
